@@ -11,8 +11,8 @@ public class Pudo {
         this.code = code;
     }
 
-    public Boolean match(Integer plz) {
-        return from <= plz && to >= plz;
+    public Boolean match(Integer zipCode) {
+        return from <= zipCode && to >= zipCode;
     }
 
     public Integer totalRange() {

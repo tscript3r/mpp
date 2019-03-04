@@ -1,6 +1,7 @@
 package pl.tscript3r.mpp.services;
 
 import pl.tscript3r.mpp.domain.Pudo;
+import pl.tscript3r.mpp.utils.Logger;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -9,19 +10,18 @@ import java.util.Optional;
 
 public class PudoMatcherServiceImpl implements PudoMatcherService {
 
-    private List<Pudo> pudos = new ArrayList<>();
+    private final List<Pudo> pudos = new ArrayList<>();
 
     public void addPudo(Pudo pudo) {
-        System.out.println("Added PUDO " + pudo);
+        Logger.print("Added: ", pudo.toString());
         pudos.add(pudo);
     }
 
-    public Optional<Pudo> getPudoByPlz(Integer plz) {
-        System.out.println("Searching for: " + plz);
+    public Optional<Pudo> getPudoByZipCode(Integer zipCode) {
+        Logger.print("Searching for: ", zipCode.toString(), " [PLZ]");
         return pudos.stream()
-                .filter(pudo -> pudo.match(plz))
-                .sorted(Comparator.comparingInt(Pudo::totalRange))
-                .findFirst();
+                .filter(pudo -> pudo.match(zipCode))
+                .min(Comparator.comparingInt(Pudo::totalRange));
     }
 
 }

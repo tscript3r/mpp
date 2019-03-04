@@ -5,28 +5,26 @@ import pl.tscript3r.mpp.services.PudoLoaderService;
 import pl.tscript3r.mpp.services.PudoLoaderServiceImpl;
 import pl.tscript3r.mpp.services.PudoMatcherService;
 import pl.tscript3r.mpp.services.PudoMatcherServiceImpl;
+import pl.tscript3r.mpp.utils.Logger;
 
 import java.awt.*;
-import java.io.IOException;
 
-public class Main 
-{
-    public static void main(String[] args) throws IOException {
+public class Main {
+    public static void main(String[] args) {
 
-        PudoLoaderService pudoLoaderService = new PudoLoaderServiceImpl();
+        final PudoLoaderService pudoLoaderService = new PudoLoaderServiceImpl();
         final PudoMatcherService pudoMatcherService = new PudoMatcherServiceImpl();
+        EventQueue.invokeLater(() -> {
 
-        pudoLoaderService.loadPudos(pudoMatcherService);
-
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    MainForm window = new MainForm(pudoMatcherService);
-                    window.getMainJform().setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+            try {
+                MainForm window = new MainForm(pudoMatcherService);
+                window.getMainJform().setVisible(true);
+                pudoLoaderService.loadPudos(pudoMatcherService);
+            } catch (Exception e) {
+                Logger.print("Fail: ", e.getMessage());
+                e.printStackTrace();
             }
+
         });
     }
 }
