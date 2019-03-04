@@ -34,12 +34,13 @@ import java.awt.TextArea;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.Font;
+import javax.swing.JScrollBar;
+import javax.swing.SwingConstants;
 
 public class MainForm {
 
 	private JFrame mainJform;
 	private JTextField plzTextField;
-	private JTextField textField_1;
 	private JTextField pudoTextField;
 	private JTextField trackingTextField;
 	private JTextField dateTextField;
@@ -78,7 +79,7 @@ public class MainForm {
 	private void initialize() {
 		mainJform = new JFrame();
 		mainJform.setTitle("MPP");
-		mainJform.setBounds(100, 100, 283, 317);
+		mainJform.setBounds(100, 100, 495, 282);
 		mainJform.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainJform.getContentPane().setLayout(new BorderLayout(0, 0));
 		mainJform.setResizable(false);
@@ -124,60 +125,78 @@ public class MainForm {
 		});
 		panel.add(btnNewButton);
 
-		textField_1 = new JTextField();
-		textField_1.setBounds(10, 76, 211, 23);
-		panel.add(textField_1);
-		textField_1.setColumns(10);
-
 		JButton btnNewButton_1 = new JButton("❐");
 		btnNewButton_1.setFont(new Font("Tahoma", Font.PLAIN, 7));
-		btnNewButton_1.setBounds(224, 76, 41, 22);
+		btnNewButton_1.setBounds(240, 96, 26, 19);
 		panel.add(btnNewButton_1);
 		
 		JLabel lblPudo = new JLabel("PUDO:");
 		lblPudo.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblPudo.setBounds(10, 120, 46, 14);
+		lblPudo.setBounds(10, 82, 46, 12);
 		panel.add(lblPudo);
 		
 		pudoTextField = new JTextField();
 		pudoTextField.setColumns(10);
-		pudoTextField.setBounds(10, 134, 256, 20);
+		pudoTextField.setBounds(10, 96, 228, 20);
 		panel.add(pudoTextField);
 		
 		JLabel lblTrackingNumber = new JLabel("Tracking number:");
 		lblTrackingNumber.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblTrackingNumber.setBounds(10, 157, 107, 12);
+		lblTrackingNumber.setBounds(10, 121, 107, 12);
 		panel.add(lblTrackingNumber);
 		
 		trackingTextField = new JTextField();
 		trackingTextField.setColumns(10);
-		trackingTextField.setBounds(10, 170, 256, 20);
+		trackingTextField.setBounds(10, 134, 256, 20);
 		panel.add(trackingTextField);
 		
 		JLabel lblExpectedDeliveryDate = new JLabel("Expected delivery date:");
 		lblExpectedDeliveryDate.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblExpectedDeliveryDate.setBounds(10, 185, 211, 28);
+		lblExpectedDeliveryDate.setBounds(10, 159, 211, 14);
 		panel.add(lblExpectedDeliveryDate);
 		
 		dateTextField = new JTextField();
 		dateTextField.setColumns(10);
-		dateTextField.setBounds(10, 205, 256, 20);
+		dateTextField.setBounds(10, 172, 256, 20);
 		panel.add(dateTextField);
 		
 		JButton btnGenerateMemo = new JButton("Generate Memo");
 		btnGenerateMemo.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		btnGenerateMemo.setBounds(10, 229, 255, 23);
+		btnGenerateMemo.setBounds(10, 196, 255, 23);
 		panel.add(btnGenerateMemo);
 		
 		textField_4 = new JTextField();
 		textField_4.setColumns(10);
-		textField_4.setBounds(10, 256, 211, 23);
+		textField_4.setBounds(10, 222, 228, 20);
 		panel.add(textField_4);
 		
 		JButton button = new JButton("❐");
 		button.setFont(new Font("Tahoma", Font.PLAIN, 7));
-		button.setBounds(224, 256, 41, 22);
+		button.setBounds(240, 222, 26, 19);
 		panel.add(button);
+		
+		JSeparator separator = new JSeparator();
+		separator.setBounds(10, 77, 256, 2);
+		panel.add(separator);
+		
+		JSeparator separator_1 = new JSeparator();
+		separator_1.setOrientation(SwingConstants.VERTICAL);
+		separator_1.setBounds(272, 22, 7, 220);
+		panel.add(separator_1);
+		
+		JScrollPane scroll = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		scroll.setBounds(280, 23, 199, 219);
+		panel.add(scroll);
+		
+		JTextArea textArea = new JTextArea();
+		textArea.setWrapStyleWord(true);
+		textArea.setLineWrap(true);
+		scroll.setViewportView(textArea);
+		textArea.setEditable(false);
+		textArea.updateUI();
+		DefaultCaret caret = (DefaultCaret) textArea.getCaret();
+		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 
 	}
 }

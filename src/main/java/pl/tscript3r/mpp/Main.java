@@ -14,7 +14,7 @@ public class Main
     public static void main(String[] args) throws IOException {
 
         PudoLoaderService pudoLoaderService = new PudoLoaderServiceImpl();
-        PudoMatcherService pudoMatcherService = new PudoMatcherServiceImpl();
+        final PudoMatcherService pudoMatcherService = new PudoMatcherServiceImpl();
 
         pudoLoaderService.loadPudos(pudoMatcherService);
 
