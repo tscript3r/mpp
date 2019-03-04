@@ -1,5 +1,6 @@
 package pl.tscript3r.mpp.forms;
 
+import jdk.nashorn.internal.scripts.JO;
 import pl.tscript3r.mpp.domain.Pudo;
 import pl.tscript3r.mpp.exceptions.PudoNotFoundException;
 import pl.tscript3r.mpp.services.PudoMatcherService;
@@ -11,6 +12,7 @@ import javax.swing.text.DefaultCaret;
 import java.awt.*;
 
 import static pl.tscript3r.mpp.utils.Logger.setTextArea;
+import static pl.tscript3r.mpp.utils.Logger.setjFrame;
 
 public class MainForm {
 
@@ -37,6 +39,11 @@ public class MainForm {
         return mainJform;
     }
 
+    private void textFieldSpaceEraser(JTextField jTextField) {
+        jTextField.setText(
+                jTextField.getText().replace(" ", ""));
+    }
+
     /**
      * Initialise the contents of the frame.
      *
@@ -48,6 +55,7 @@ public class MainForm {
         mainJform.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainJform.getContentPane().setLayout(new BorderLayout(0, 0));
         mainJform.setResizable(false);
+        setjFrame(mainJform);
 
         Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
         int x = (int) ((dimension.getWidth() - mainJform.getWidth()) / 2);
@@ -77,13 +85,16 @@ public class MainForm {
         btnNewButton.addActionListener((actionListener) -> {
 
             try {
+                pudoTextField.setText("");
+                textFieldSpaceEraser(zipTextField);
                 Pudo foundPudo = pudoMatcherService
                         .getPudoByZipCode(Integer.valueOf(zipTextField.getText()))
                         .orElseThrow(() -> new PudoNotFoundException(Integer.valueOf(zipTextField.getText())));
                 Logger.print("Found: ", foundPudo.toString());
                 pudoTextField.setText(foundPudo.getCode());
             } catch (PudoNotFoundException e1) {
-                Logger.print("Could not find PUDO for PLZ: ", zipTextField.getText());
+                Logger.print("Could not find PUDO for zip code: ", zipTextField.getText());
+                Logger.showDialogMessage(JOptionPane.WARNING_MESSAGE, "Could not find PUDO for zip code: " + zipTextField.getText());
             } catch (NumberFormatException e1) {
                 Logger.print("Wrong zip code value: ", zipTextField.getText());
             }
@@ -150,6 +161,10 @@ public class MainForm {
             if (dateTextField.getText().isEmpty())
                 Logger.print("Warning: ETA field empty");
 
+            textFieldSpaceEraser(zipTextField);
+            textFieldSpaceEraser(pudoTextField);
+            textFieldSpaceEraser(trackingTextField);
+
             textField_4.setText(String.format(MEMO_TEMPLATE,
                     pudoTextField.getText(), trackingTextField.getText(), dateTextField.getText()));
 
@@ -199,5 +214,6 @@ public class MainForm {
         lblOnlyForClient.setFont(new Font("Tahoma", Font.PLAIN, 14));
         lblOnlyForClient.setBounds(138, 11, 304, 14);
         panel.add(lblOnlyForClient);
+
     }
 }

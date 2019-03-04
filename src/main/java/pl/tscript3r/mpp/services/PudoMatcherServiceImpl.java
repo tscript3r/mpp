@@ -13,12 +13,11 @@ public class PudoMatcherServiceImpl implements PudoMatcherService {
     private final List<Pudo> pudos = new ArrayList<>();
 
     public void addPudo(Pudo pudo) {
-        Logger.print("Added: ", pudo.toString());
         pudos.add(pudo);
     }
 
     public Optional<Pudo> getPudoByZipCode(Integer zipCode) {
-        Logger.print("Searching for: ", zipCode.toString(), " [PLZ]");
+        Logger.print("Searching for: ", zipCode.toString(), " [ZIP]");
         return pudos.stream()
                 .filter(pudo -> pudo.match(zipCode))
                 .min(Comparator.comparingInt(Pudo::totalRange));

@@ -7,6 +7,7 @@ import pl.tscript3r.mpp.services.PudoMatcherService;
 import pl.tscript3r.mpp.services.PudoMatcherServiceImpl;
 import pl.tscript3r.mpp.utils.Logger;
 
+import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 
@@ -20,6 +21,7 @@ public class Main {
             	pudoLoaderService.loadPudos(pudoMatcherService);
 			} catch (IOException e) {
 				Logger.print("Fail: ", e.getMessage());
+				Logger.showDialogMessage(JOptionPane.ERROR_MESSAGE, "Fail: " + e.getMessage());
 				e.printStackTrace();
 			}
             window.getMainJform().setVisible(true);

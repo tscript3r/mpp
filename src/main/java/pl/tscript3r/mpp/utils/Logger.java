@@ -5,10 +5,15 @@ import javax.swing.*;
 public class Logger {
 
     private static JTextArea taOutput;
+    private static JFrame jFrame;
     private static final String PREFIX = "> ";
 
     public static void setTextArea(JTextArea jTextArea) {
         taOutput = jTextArea;
+    }
+
+    public static void setjFrame(JFrame jFrame) {
+        Logger.jFrame = jFrame;
     }
 
     public static void print(String... message) {
@@ -22,4 +27,12 @@ public class Logger {
         } else
             System.out.println(output.toString());
     }
+
+    public static void showDialogMessage(int type, String message) {
+        JOptionPane.showMessageDialog(jFrame,
+                message,
+                "MPP",
+                type);
+    }
+
 }
