@@ -9,22 +9,24 @@ import pl.tscript3r.mpp.utils.Logger;
 
 import java.awt.*;
 
+import javax.swing.SwingUtilities;
+
 public class Main {
     public static void main(String[] args) {
-
         final PudoLoaderService pudoLoaderService = new PudoLoaderServiceImpl();
         final PudoMatcherService pudoMatcherService = new PudoMatcherServiceImpl();
+        final MainForm window = new MainForm(pudoMatcherService);
+        
         EventQueue.invokeLater(() -> {
-
             try {
-                MainForm window = new MainForm(pudoMatcherService);
-                window.getMainJform().setVisible(true);
                 pudoLoaderService.loadPudos(pudoMatcherService);
-            } catch (Exception e) {
+                SwingUtilities.updateComponentTreeUI(window.getMainJform());
+			} catch (Exception e) {
                 Logger.print("Fail: ", e.getMessage());
                 e.printStackTrace();
+            } finally {
+            	window.getMainJform().setVisible(true);
             }
-
         });
     }
 }
