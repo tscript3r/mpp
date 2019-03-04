@@ -21,6 +21,7 @@ public class MainForm {
     private JTextField trackingTextField;
     private JTextField dateTextField;
     private JTextField textField_4;
+    private JScrollPane scroll;
     private final PudoMatcherService pudoMatcherService;
 
 
@@ -177,7 +178,7 @@ public class MainForm {
         separator_1.setBounds(272, 41, 7, 220);
         panel.add(separator_1);
 
-        JScrollPane scroll = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+        scroll = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scroll.setBounds(280, 42, 256, 219);
         panel.add(scroll);

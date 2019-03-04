@@ -8,25 +8,21 @@ import pl.tscript3r.mpp.services.PudoMatcherServiceImpl;
 import pl.tscript3r.mpp.utils.Logger;
 
 import java.awt.*;
-
-import javax.swing.SwingUtilities;
+import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) {
         final PudoLoaderService pudoLoaderService = new PudoLoaderServiceImpl();
         final PudoMatcherService pudoMatcherService = new PudoMatcherServiceImpl();
         final MainForm window = new MainForm(pudoMatcherService);
-        
         EventQueue.invokeLater(() -> {
             try {
-                pudoLoaderService.loadPudos(pudoMatcherService);
-                SwingUtilities.updateComponentTreeUI(window.getMainJform());
-			} catch (Exception e) {
-                Logger.print("Fail: ", e.getMessage());
-                e.printStackTrace();
-            } finally {
-            	window.getMainJform().setVisible(true);
-            }
+            	pudoLoaderService.loadPudos(pudoMatcherService);
+			} catch (IOException e) {
+				Logger.print("Fail: ", e.getMessage());
+				e.printStackTrace();
+			}
+            window.getMainJform().setVisible(true);
         });
     }
 }
