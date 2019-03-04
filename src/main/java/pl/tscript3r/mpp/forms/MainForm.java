@@ -1,10 +1,15 @@
 package pl.tscript3r.mpp.forms;
 
+import pl.tscript3r.mpp.exceptions.PudoNotFoundException;
+import pl.tscript3r.mpp.services.PudoMatcherService;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.security.KeyManagementException;
@@ -32,10 +37,6 @@ import java.awt.Font;
 
 public class MainForm {
 
-	private final String DAILY_PATTERN = "%s	%s	BS	Billing as time/material: 5 Min.		%s	-	-	x	-	-	-	-	Check for DBD.";
-	private final String[] PROJECTS_SHORT_LIST = { "HP_TPMDE", "HPI_TPM", "HP_TPMUK", "HP_TPMFR", "HP_PMKIT",
-			"HPEON_IMAC2", "HPEON_IMACGSEM", "None" };
-
 	private JFrame mainJform;
 	private JTextField plzTextField;
 	private JTextField textField_1;
@@ -43,27 +44,8 @@ public class MainForm {
 	private JTextField trackingTextField;
 	private JTextField dateTextField;
 	private JTextField textField_4;
+	private final PudoMatcherService pudoMatcherService;
 
-	/**
-	 * Launch the application.
-	 * 
-	 * @throws NoSuchAlgorithmException
-	 * @throws KeyManagementException
-	 */
-	public static void main(String[] args) {
-
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					MainForm window = new MainForm();
-					window.mainJform.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-
-	}
 
 	/**
 	 * Create the application.
@@ -71,7 +53,8 @@ public class MainForm {
 	 * @throws NoSuchAlgorithmException
 	 * @throws KeyManagementException
 	 */
-	public MainForm() throws KeyManagementException, NoSuchAlgorithmException {
+	public MainForm(PudoMatcherService pudoMatcherService) throws KeyManagementException, NoSuchAlgorithmException {
+		this.pudoMatcherService = pudoMatcherService;
 		initialize();
 	}
 
@@ -82,6 +65,9 @@ public class MainForm {
 		return sw.getBuffer().toString();
 	}
 
+	public JFrame getMainJform() {
+		return mainJform;
+	}
 
 	/**
 	 * Initialise the contents of the frame.
@@ -109,10 +95,6 @@ public class MainForm {
 		mainJform.getContentPane().add(panel);
 		panel.setLayout(null);
 
-		JSeparator separator = new JSeparator();
-		separator.setBounds(10, 110, 256, 8);
-		panel.add(separator);
-
 		plzTextField = new JTextField();
 		plzTextField.setBounds(10, 25, 256, 20);
 		panel.add(plzTextField);
@@ -123,9 +105,23 @@ public class MainForm {
 		lblNewLabel.setBounds(10, 11, 46, 14);
 		panel.add(lblNewLabel);
 
-		JButton btnNewButton = new JButton("Generate PUDO");
+		JButton btnNewButton = new JButton("Find PUDO");
 		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		btnNewButton.setBounds(10, 48, 255, 23);
+		btnNewButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					System.out.println(pudoMatcherService
+							.getPudoByPlz(Integer.valueOf(plzTextField.getText()))
+							.orElseThrow(() -> new PudoNotFoundException(Integer.valueOf(plzTextField.getText()))));
+				} catch (PudoNotFoundException e1) {
+					e1.printStackTrace();
+				}
+			}
+
+		});
 		panel.add(btnNewButton);
 
 		textField_1 = new JTextField();
