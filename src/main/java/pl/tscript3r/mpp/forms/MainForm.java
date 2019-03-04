@@ -79,7 +79,7 @@ public class MainForm {
 	private void initialize() {
 		mainJform = new JFrame();
 		mainJform.setTitle("MPP");
-		mainJform.setBounds(100, 100, 495, 282);
+		mainJform.setBounds(100, 100, 551, 282);
 		mainJform.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainJform.getContentPane().setLayout(new BorderLayout(0, 0));
 		mainJform.setResizable(false);
@@ -186,7 +186,7 @@ public class MainForm {
 		
 		JScrollPane scroll = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		scroll.setBounds(280, 23, 199, 219);
+		scroll.setBounds(280, 23, 256, 219);
 		panel.add(scroll);
 		
 		JTextArea textArea = new JTextArea();
